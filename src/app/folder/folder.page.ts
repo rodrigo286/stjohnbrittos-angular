@@ -27,21 +27,23 @@ export class FolderPage implements OnInit {
   /*public purchaseId: number;
   public purchaseQtd: number;*/
 
+  public formatter = new Intl.NumberFormat('pt-BR', {
+    //style: 'currency',
+    minimumFractionDigits: 2,
+    //currency: 'BRL',
+  });
+  
   public purchase = [
     {
       id: 0,
       productId: 0,
       productName: '',
       purchaseQtd: 0,
-      price: 0
+      price: ''
     }
   ];
 
   public quantity: number = 1;
-
-  /*public addPurchase(id, name, qtd, price){
-    this.purchase.push({id: this.purchase.length + 1, productId: id, productName: name, purchaseQtd: qtd, price: price});
-  }*/
 
   public addQuantity(){
     this.quantity++;
@@ -53,8 +55,7 @@ export class FolderPage implements OnInit {
   }
 
   public addPurchase(){
-    //this.getProductById(this.productId);
-    this.purchase.push({id: this.purchase.length + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: this.product[0].price});
+    this.purchase.push({id: this.purchase.length-1 + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: this.formatter.format(this.quantity * this.product[0].price)});
   }
 
   //category = {} as Category;
@@ -74,6 +75,13 @@ export class FolderPage implements OnInit {
     this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
 
     this.getCategorys();
+
+    /*var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });*/
+
+    console.log(this.formatter.format(7));
 
     /*if(this.value && this.folder === 'produtos') {
       this.getCatById(this.value);
