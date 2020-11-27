@@ -8,13 +8,18 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
+    //path: 'folder/:id',
+    path: 'folder/:dir',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
-    //path: ':produtos/:id/:value',
-    //path: 'folder/:area/:id/:value',
-    path: ':id/:value',
+    //path: ':id/:value',
+    path: ':dir/:cat',
+    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
+    //path: ':id/:cat/:value',
+    path: ':dir/:cat/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   }
 ];

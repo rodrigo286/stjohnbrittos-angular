@@ -12,9 +12,12 @@ import { Product } from '../models/product';
   styleUrls: ['./folder.page.scss'],
 })
 export class FolderPage implements OnInit {
+  /*public folder: string;
+  public productCat: number;
+  public value: number;*/
   public folder: string;
-  public area: string;
-  public value: number;
+  public productCat: number;
+  public productId: number;
 
   //category = {} as Category;
   categorys: Category[];
@@ -25,18 +28,40 @@ export class FolderPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient) { }
 
   ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+    /*this.folder = this.activatedRoute.snapshot.paramMap.get('id');
     this.value = +this.activatedRoute.snapshot.paramMap.get('value');
+    this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');*/
+    this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
+    this.productId = +this.activatedRoute.snapshot.paramMap.get('id');
+    this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
 
     this.getCategorys();
 
-    if(this.value && this.folder === 'produtos') {
+    /*if(this.value && this.folder === 'produtos') {
       this.getCatById(this.value);
       this.getProductsByCat(this.value);
     }else if(this.value && this.folder === 'produto'){
+      //this.getCatById(this.persistentCat);
       this.getProductById(this.value);
+      console.log('Folder: ' + this.folder);
+      console.log('Value: ' + this.value);
+      console.log('Cat: ' + this.productCat);
+    }*/
+    if(this.productCat && this.folder === 'produtos') {
+      this.getCatById(this.productCat);
+      this.getProductsByCat(this.productCat);
+    }else if(this.productId && this.folder === 'produto'){
+      this.getCatById(this.productCat);
+      this.getProductById(this.productId);
+      console.log('Folder: ' + this.folder);
+      console.log('Product: ' + this.productId);
+      console.log('Cat: ' + this.productCat);
     }
   
+  }
+
+  public teste(){
+    console.log('Load sucesso.');
   }
 
   getCategorys() {
@@ -60,7 +85,8 @@ export class FolderPage implements OnInit {
   getProductById(id: number) {
     this.shopService.getProductById(id).subscribe((product: Product) => {
       this.product = product;
-      //console.log(product);
+      //console.log(product[0]);
+      //console.log('Cat: ' + product);
     });
   }
 }

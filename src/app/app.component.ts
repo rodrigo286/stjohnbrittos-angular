@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     {
       title: 'Carrinho',
       url: '/folder/Carrinho',
-      icon: 'basket'
+      icon: 'cart'
     },
     {
       title: 'Meus pedidos',

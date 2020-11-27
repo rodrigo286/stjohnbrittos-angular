@@ -41,7 +41,7 @@
       </ion-toolbar>
     </ion-header>-->
 
-    <ion-item href="/produto/{{ product.productId }}" detail *ngFor="let product of products">
+    <ion-item href="/produto/{{ product.categoryId }}/{{ product.productId }}" detail *ngFor="let product of products">
       <ion-label>
         {{ product.productName }}
       </ion-label>
@@ -50,7 +50,38 @@
 
   <ng-template [ngIf]="folder === 'produto'" *ngFor="let item of product">
 
-    <ion-header [translucent]="true">
+    <ion-header [translucent]="true" *ngFor="let cat of category">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>{{ cat.categoryName }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+  <ion-card class="ion-text-center">
+    
+    <img width="100" src="{{ item.photo }}"/>
+
+    <ion-card-content>
+      <ion-card-title>
+        {{ item.unity }} x {{ item.productName }}
+      </ion-card-title>
+    </ion-card-content>
+
+    <ion-item>
+      <ion-icon name='logo-usd' item-start style="color: #000000"></ion-icon>
+        {{ item.price }}
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name='archive' item-start style="color: #000000"></ion-icon>
+        Disponível: {{ item.quantity }}
+    </ion-item>
+
+  </ion-card>
+
+    <!--<ion-header [translucent]="true">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
@@ -63,7 +94,8 @@
       <ion-label>
         {{ item.price }}
       </ion-label>
-    </ion-item>
+    </ion-item>-->
+
   </ng-template>
 
 </ion-content>
