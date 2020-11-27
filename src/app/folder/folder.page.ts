@@ -35,11 +35,6 @@ export class FolderPage implements OnInit {
       this.getProductsByCat(this.value);
     }else if(this.value && this.folder === 'produto'){
       this.getProductById(this.value);
-
-     /* this.getCatById(this.value);
-      for (var property in this.product) {
-        console.log('Prop: ' + this.product[property]);
-      }*/
     }
   
   }
