@@ -19,11 +19,49 @@ export class FolderPage implements OnInit {
   public productCat: number;
   public productId: number;
 
-  //category = {} as Category;
   categorys: Category[];
   category: Category;
   products: Product[];
   product: Product;
+
+  /*public purchaseId: number;
+  public purchaseQtd: number;*/
+
+  public purchase = [
+    {
+      id: 0,
+      productId: 0,
+      productName: '',
+      purchaseQtd: 0,
+      price: 0
+    }
+  ];
+
+  public quantity: number = 1;
+
+  /*public addPurchase(id, name, qtd, price){
+    this.purchase.push({id: this.purchase.length + 1, productId: id, productName: name, purchaseQtd: qtd, price: price});
+  }*/
+
+  public addQuantity(){
+    this.quantity++;
+  }
+
+  public remQuantity(){
+    if(this.quantity > 1)
+      this.quantity--;
+  }
+
+  public addPurchase(){
+    //this.getProductById(this.productId);
+    this.purchase.push({id: this.purchase.length + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: this.product[0].price});
+  }
+
+  //category = {} as Category;
+  /*categorys: Category[];
+  category: Category;
+  products: Product[];
+  product: Product;*/
 
   constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient) { }
 

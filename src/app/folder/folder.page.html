@@ -79,22 +79,29 @@
         Disponível: {{ item.quantity }}
     </ion-item>
 
+    <ion-toolbar color="light">
+      <ion-input [(ngModel)]="quantity" type="number"></ion-input>
+      <ion-buttons slot="start">
+        <ion-button (click)="remQuantity()">
+          <ion-icon slot="icon-only" name="remove"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="addQuantity()">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <section class="full-width">
+      <ion-button (click)="addPurchase()" expand="full" color="secondary">Adionar ao carrinho</ion-button>
+    </section>
+
   </ion-card>
 
-    <!--<ion-header [translucent]="true">
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>{{ item.productName }}</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-item href="/produto/{{ product.productId }}" detail>
-      <ion-label>
-        {{ item.price }}
-      </ion-label>
-    </ion-item>-->
+  <pre>
+    {{ purchase | json }}
+  </pre>
 
   </ng-template>
 
