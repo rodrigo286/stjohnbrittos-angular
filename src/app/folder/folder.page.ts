@@ -4,6 +4,7 @@ import { ShopService } from '../services/shop.service';
 import { Category } from '../models/categorys';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
+import { CarrinhoService } from '../services/carrinho.service';
 
 @Component({
   selector: 'app-folder',
@@ -14,6 +15,9 @@ export class FolderPage implements OnInit {
   public folder: string;
   public productCat: number;
   public productId: number;
+
+  public carrinho;
+  //public addToCarrinho = '';
 
   categorys: Category[];
   category: Category;
@@ -27,6 +31,10 @@ export class FolderPage implements OnInit {
 
   public quantity: number = 1;
   public actualQuantity: number = 0;
+
+  public addToCarrinho(){
+    this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.purchase.productId, this.purchase.productName, this.purchase.purchaseQtd, this.purchase.price);
+  }
 
   public addQuantity(){
     this.quantity++;
@@ -54,14 +62,16 @@ export class FolderPage implements OnInit {
     }
 
     if (!found && this.quantity > 0){
-      this.purchase.push({id: this.purchase.length-1 + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: (this.quantity * this.product[0].price)});
+      this.purchase.push({id: this.purchase.length + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: (this.quantity * this.product[0].price)});
     }else{
       this.purchase.some(el => el.purchaseQtd += this.quantity);
       this.purchase.some(el => el.price += (this.quantity * this.product[0].price));
     }
+
+    this.addToCarrinho();
   }
 
-  constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient) { }
+  constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
@@ -76,10 +86,12 @@ export class FolderPage implements OnInit {
     }else if(this.productId && this.folder === 'produto'){
       this.getCatById(this.productCat);
       this.getProductById(this.productId);
-      console.log('Folder: ' + this.folder);
+      /*console.log('Folder: ' + this.folder);
       console.log('Product: ' + this.productId);
-      console.log('Cat: ' + this.productCat);
+      console.log('Cat: ' + this.productCat);*/
     }
+
+    this.carrinho = this.carrinhoService.itensCarrinho();
   
   }
 
