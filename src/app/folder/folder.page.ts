@@ -83,6 +83,10 @@ export class FolderPage implements OnInit {
   
   }
 
+  public teste(){
+    console.log('Load sucesso.');
+  }
+
   getCategorys() {
     this.shopService.getCategorys().subscribe((cats: Category[]) => {
       this.categorys = cats;
