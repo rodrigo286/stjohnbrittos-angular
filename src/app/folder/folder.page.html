@@ -121,7 +121,7 @@
     </ion-header>
 
     <!--<ng-template [ngIf]="carrinho">-->
-    <ng-template [ngIf]="carrinho?.length > 0">
+    <ng-template [ngIf]="itensNoCarrinho">
 
       <ion-item *ngFor="let item of carrinho">
         <ion-label slot="start">
@@ -138,9 +138,9 @@
 
     </ng-template>
 
-    <ng-template [ngIf]="carrinho?.length < 0">
+    <ng-template [ngIf]="!itensNoCarrinho">
 
-      <ion-item *ngFor="let item of carrinho">
+      <ion-item>
         Seu carrinho está vazio no momento !
       </ion-item>
 

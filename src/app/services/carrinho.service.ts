@@ -14,22 +14,34 @@ interface Carrinho {
 })
 export class CarrinhoService {
 
+  private cartIsEmpty: boolean = false;
+
   private carrinho: Carrinho[] = [];
 
   constructor(private storage: Storage) {
    this.fetchCarrinho();
+   this.fetchCartEmpty();
   }
 
   private async fetchCarrinho(){
     this.carrinho = (await this.storage.get('carrinho')) ?? [];
   }
 
+  private async fetchCartEmpty(){
+    this.cartIsEmpty = (await this.storage.get('cartIsEmpty')) ?? [];
+  }
+
   public async updateStorage(){
     this.storage.set('carrinho', this.carrinho);
+    this.storage.set('cartIsEmpty', this.cartIsEmpty);
   }
 
   public itensCarrinho(){
     return this.carrinho;
+  }
+
+  public cartEmpty(cond: boolean){
+    this.cartIsEmpty = cond;
   }
 
   public addToCarrinho(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
