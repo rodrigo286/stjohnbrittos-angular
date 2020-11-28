@@ -4,8 +4,6 @@ import { ShopService } from '../services/shop.service';
 import { Category } from '../models/categorys';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
-import { stringify } from 'querystring';
-//import { Purchase } from '../models/purchase';
 
 @Component({
   selector: 'app-folder',
