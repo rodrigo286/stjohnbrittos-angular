@@ -23,9 +23,8 @@ export class FolderPage implements OnInit {
   purchase:any = [];
 
   public formatter = new Intl.NumberFormat('pt-BR', {
-    //style: 'currency',
+
     minimumFractionDigits: 2,
-    //currency: 'BRL',
   });
 
   public quantity: number = 1;
