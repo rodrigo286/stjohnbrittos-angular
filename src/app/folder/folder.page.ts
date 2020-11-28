@@ -5,6 +5,7 @@ import { Category } from '../models/categorys';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
 import { CarrinhoService } from '../services/carrinho.service';
+import { PurchaseService } from '../services/purchase.service';
 
 @Component({
   selector: 'app-folder',
@@ -17,13 +18,14 @@ export class FolderPage implements OnInit {
   public productId: number;
 
   public carrinho;
+  public purchase;
   //public addToCarrinho = '';
 
   categorys: Category[];
   category: Category;
   products: Product[];
   product: Product;
-  purchase:any = [];
+  //purchase:any = [];
 
   public formatter = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
@@ -32,9 +34,9 @@ export class FolderPage implements OnInit {
   public quantity: number = 1;
   public actualQuantity: number = 0;
 
-  public addToCarrinho(){
+  /*public addToCarrinho(){
     this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.purchase.productId, this.purchase.productName, this.purchase.purchaseQtd, this.purchase.price);
-  }
+  }*/
 
   public addQuantity(){
     this.quantity++;
@@ -49,6 +51,12 @@ export class FolderPage implements OnInit {
   }
 
   public addPurchase(){
+    this.purchaseService.addPurchase(this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity * this.product[0].price));
+
+    //this.addToCarrinho();
+  }
+
+  /*public addPurchase(){
     const {length} = this.purchase;
     const found = this.purchase.some(el => el.productId === this.product[0].productId);
 
@@ -69,9 +77,9 @@ export class FolderPage implements OnInit {
     }
 
     this.addToCarrinho();
-  }
+  }*/
 
-  constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService) { }
+  constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService, private purchaseService: PurchaseService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
@@ -92,6 +100,7 @@ export class FolderPage implements OnInit {
     }
 
     this.carrinho = this.carrinhoService.itensCarrinho();
+    this.purchase = this.purchaseService.itensPurchase();
   
   }
 

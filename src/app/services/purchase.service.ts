@@ -12,7 +12,11 @@ interface Purchase {
 })
 export class PurchaseService {
 
-  private purchase: Purchase[];
+  private purchase: Purchase[] = [];
+
+  public itensPurchase(){
+    return this.purchase;
+  }
 
   constructor() { }
 
