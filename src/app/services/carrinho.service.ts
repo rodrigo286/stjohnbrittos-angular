@@ -22,12 +22,9 @@ export class CarrinhoService {
 
   private async fetchCarrinho(){
     this.carrinho = (await this.storage.get('carrinho')) ?? [];
-    //this.carrinho.push(...(await this.storage.get('carrinho')));
-    /*const storageCarrinho = await this.storage.get('carrinho');
-    this.carrinho.push(...storageCarrinho);*/
   }
 
-  private async updateStorage(){
+  public async updateStorage(){
     this.storage.set('carrinho', this.carrinho);
   }
 
@@ -37,6 +34,15 @@ export class CarrinhoService {
 
   public addToCarrinho(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
     this.carrinho.push({id, productId, productName, purchaseQtd, total});
-    this.updateStorage();
+    //this.updateStorage();
+  }
+
+  public plusQuantity(quantity: number, price: number){
+    this.carrinho.some(el => el.purchaseQtd += quantity);
+    this.carrinho.some(el => el.total += (quantity * price));
+  }
+
+  public productExists(productId: number){
+    return this.carrinho.some(el => el.productId === productId);
   }
 }
