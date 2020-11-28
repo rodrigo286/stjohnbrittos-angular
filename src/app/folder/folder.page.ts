@@ -31,6 +31,7 @@ export class FolderPage implements OnInit {
   });
 
   public quantity: number = 1;
+  public actualQuantity: number = 0;
 
   public addQuantity(){
     this.quantity++;
@@ -47,15 +48,18 @@ export class FolderPage implements OnInit {
 
   public addPurchase(){
     const {length} = this.purchase;
-    const id = length + 1;
     const found = this.purchase.some(el => el.productId === this.product[0].productId);
 
-    const sqtd = this.purchase.some(el => el.purchaseQtd);
+    this.actualQuantity += this.quantity;
+    if(this.actualQuantity < 0)
+      this.actualQuantity = 0;
 
-    const nQtd = this.quantity + sqtd;
-
-    if(nQtd < 0)
+    if(this.actualQuantity <= 0){
       this.purchase.pop();
+      this.actualQuantity = 0;
+    }
+
+    console.log('Atual: ' + this.actualQuantity);
 
     if (!found && this.quantity > 0){
       this.purchase.push({id: this.purchase.length-1 + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: (this.quantity * this.product[0].price)});
@@ -63,11 +67,6 @@ export class FolderPage implements OnInit {
       this.purchase.some(el => el.purchaseQtd += this.quantity);
       this.purchase.some(el => el.price += (this.quantity * this.product[0].price));
     }
-
-    const qtd = this.purchase.some(el => el.purchaseQtd);
-
-    if(qtd < sqtd || qtd < 0)
-      this.purchase.pop();
   }
 
   constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient) { }
