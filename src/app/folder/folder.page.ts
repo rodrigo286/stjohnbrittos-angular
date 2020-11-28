@@ -53,8 +53,8 @@ export class FolderPage implements OnInit {
     let found = this.carrinhoService.productExists(this.product[0].productId);
 
     this.actualQuantity += this.quantity;
-    if(this.actualQuantity < 0)
-      this.actualQuantity = 0;
+    /*if(this.actualQuantity < 0)
+      this.actualQuantity = 0;*/
 
     if(this.actualQuantity <= 0){
       this.carrinho.pop();
@@ -68,6 +68,9 @@ export class FolderPage implements OnInit {
     }
 
     this.carrinhoService.updateStorage();
+
+    //this.Routes.navigate(['folder/Carrinho']);
+    //this.Routes.navigateByUrl('folder/Carrinho');
   }
 
   constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService) { }
