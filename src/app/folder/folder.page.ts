@@ -5,7 +5,6 @@ import { Category } from '../models/categorys';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
 import { CarrinhoService } from '../services/carrinho.service';
-import { PurchaseService } from '../services/purchase.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -47,33 +46,11 @@ export class FolderPage implements OnInit {
   }
 
   public check(){
-    let found = this.purchaseService.productExists(this.product[0].productId);
-    if(found)
-      console.log('Encontrado !');
+    console.log('Encontrado !');
   }
 
   public addToCarrinho(){
-    //let found = this.carrinhoService.productExists(this.purchase[0].productId);
     let found = this.carrinhoService.productExists(this.product[0].productId);
-
-    /*this.actualQuantity += this.quantity;
-    if(this.actualQuantity < 0)
-      this.actualQuantity = 0;
-
-    if(this.actualQuantity <= 0){
-      this.carrinho.pop();
-      this.actualQuantity = 0;
-    }*/
-
-    //this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.purchase[0].productId, this.purchase[0].productName, this.purchase[0].quantity, this.purchase[0].price);
-
-    /*if (!found && this.quantity > 0){
-      this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.purchase[0].productId, this.purchase[0].productName, this.purchase[0].quantity, this.purchase[0].price);
-      alert('NF');
-    }else{
-      this.carrinhoService.plusQuantity(this.purchase[0].quantity, this.purchase[0].price);
-      alert('F');
-    }*/
 
     this.actualQuantity += this.quantity;
     if(this.actualQuantity < 0)
@@ -91,45 +68,9 @@ export class FolderPage implements OnInit {
     }
 
     this.carrinhoService.updateStorage();
-
-    // Object.keys(this.carrinho).length)
-    //this.carrinhoService.addToCarrinho(1, 2, 'teste', 3, 4);
-    /*console.log('ID: ' + this.carrinho.length);
-    console.log('productId: ' + this.purchase[0].productId);
-    console.log('productName: ' + this.purchase[0].productName);
-    console.log('purchaseQtd: ' + this.purchase[0].quantity);
-    console.log('price: ' + this.purchase[0].price);*/
   }
 
-  public addPurchase(){
-    /*let found = this.purchaseService.productExists(this.product[0].productId);
-
-    this.actualQuantity += this.quantity;
-    if(this.actualQuantity < 0)
-      this.actualQuantity = 0;
-
-    if(this.actualQuantity <= 0){
-      this.purchase.pop();
-      this.actualQuantity = 0;
-    }
-
-    if (!found && this.quantity > 0){
-      this.purchaseService.addPurchase(this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity * this.product[0].price));
-    }else{
-      this.purchaseService.plusQuantity(this.quantity, this.product[0].price); ;
-    }*/
-
-    this.addToCarrinho();
-    //this.carrinhoService.updateStorage();
-
-    //this.Routes.navigate(['folder/Carrinho']);
-  }
-
-  constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService, private purchaseService: PurchaseService) {
-    /*setTimeout(() => {
-       this.carrinho = this.carrinhoService.itensCarrinho();
-    }, 1000)*/
-   }
+  constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
@@ -152,7 +93,6 @@ export class FolderPage implements OnInit {
     setTimeout(() => {
        this.carrinho = this.carrinhoService.itensCarrinho();
     }, 1000)
-    this.purchase = this.purchaseService.itensPurchase();
   }
 
   getCategorys() {

@@ -88,7 +88,7 @@
     </ion-toolbar>
 
     <section class="full-width">
-      <ion-button (click)="addPurchase()" expand="full" color="secondary">Adionar ao carrinho</ion-button>
+      <ion-button (click)="addToCarrinho()" expand="full" color="secondary">Adionar ao carrinho</ion-button>
     </section>
 
     <section class="full-width">
@@ -96,10 +96,6 @@
     </section>
 
   </ion-card>
-
-  <pre>
-    {{ purchase | json }}
-  </pre>
 
   <pre>
     {{ carrinho | json }}
