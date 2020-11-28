@@ -16,13 +16,27 @@ export class CarrinhoService {
 
   private carrinho: Carrinho[] = [];
 
+  constructor(private storage: Storage) {
+   this.fetchCarrinho();
+  }
+
+  private async fetchCarrinho(){
+    this.carrinho = (await this.storage.get('carrinho')) ?? [];
+    //this.carrinho.push(...(await this.storage.get('carrinho')));
+    /*const storageCarrinho = await this.storage.get('carrinho');
+    this.carrinho.push(...storageCarrinho);*/
+  }
+
+  private async updateStorage(){
+    this.storage.set('carrinho', this.carrinho);
+  }
+
   public itensCarrinho(){
     return this.carrinho;
   }
 
-  constructor(private storage: Storage) { }
-
   public addToCarrinho(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
     this.carrinho.push({id, productId, productName, purchaseQtd, total});
+    this.updateStorage();
   }
 }
