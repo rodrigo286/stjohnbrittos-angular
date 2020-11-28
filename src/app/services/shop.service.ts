@@ -49,6 +49,10 @@ export class ShopService {
       )
   }
 
+  /*addPurchase(id: number, productId: number, productName: string, purchaseQtd: number, price: number): Observable<Purchase> {
+    purchaseQtd
+  }*/
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

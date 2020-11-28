@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ShopService } from '../services/shop.service';
 import { Category } from '../models/categorys';
 import { HttpClient } from '@angular/common/http';
-import { stringify } from 'querystring';
 import { Product } from '../models/product';
+import { stringify } from 'querystring';
+//import { Purchase } from '../models/purchase';
 
 @Component({
   selector: 'app-folder',
@@ -12,87 +13,88 @@ import { Product } from '../models/product';
   styleUrls: ['./folder.page.scss'],
 })
 export class FolderPage implements OnInit {
-  /*public folder: string;
-  public productCat: number;
-  public value: number;*/
   public folder: string;
   public productCat: number;
   public productId: number;
 
+  //category = {} as Category;
   categorys: Category[];
   category: Category;
   products: Product[];
   product: Product;
-
-  /*public purchaseId: number;
-  public purchaseQtd: number;*/
+  purchase:any = [];
 
   public formatter = new Intl.NumberFormat('pt-BR', {
     //style: 'currency',
     minimumFractionDigits: 2,
     //currency: 'BRL',
   });
-  
-  public purchase = [
-    {
-      id: 0,
-      productId: 0,
-      productName: '',
-      purchaseQtd: 0,
-      price: ''
-    }
-  ];
 
   public quantity: number = 1;
 
   public addQuantity(){
     this.quantity++;
+    if(this.quantity === 0)
+      this.quantity = 1;
   }
 
   public remQuantity(){
-    if(this.quantity > 1)
-      this.quantity--;
+    //if(this.quantity > 1)
+    this.quantity--;
+    if(this.quantity === 0)
+      this.quantity = -1;
   }
 
   public addPurchase(){
-    this.purchase.push({id: this.purchase.length-1 + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: this.formatter.format(this.quantity * this.product[0].price)});
-  }
+    const {length} = this.purchase;
+    const id = length + 1;
+    const found = this.purchase.some(el => el.productId === this.product[0].productId);
 
-  //category = {} as Category;
-  /*categorys: Category[];
-  category: Category;
-  products: Product[];
-  product: Product;*/
+    const sqtd = this.purchase.some(el => el.purchaseQtd);
+
+    const nQtd = this.quantity + sqtd;
+
+    if(nQtd < 0)
+      this.purchase.pop();
+
+    if (!found && this.quantity > 0){
+      this.purchase.push({id: this.purchase.length-1 + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: (this.quantity * this.product[0].price)});
+    }else{
+      this.purchase.some(el => el.purchaseQtd += this.quantity);
+      this.purchase.some(el => el.price += (this.quantity * this.product[0].price));
+    }
+
+    const qtd = this.purchase.some(el => el.purchaseQtd);
+
+    if(qtd < sqtd || qtd < 0)
+      this.purchase.pop();
+  }
 
   constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient) { }
 
   ngOnInit() {
-    /*this.folder = this.activatedRoute.snapshot.paramMap.get('id');
-    this.value = +this.activatedRoute.snapshot.paramMap.get('value');
-    this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');*/
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
     this.productId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
 
+    //this.purchase.push({id: 0, productId: 10, productName: 'TESTE', purchaseQtd: 1, price: 1});
+
+    /*let valor = 5;
+
+    const { length } = this.purchase;
+    const id = length + 1;
+    const found = this.purchase.some(el => el.productId === 11);
+    if (!found){
+      this.purchase.push({id: 1, productId: 10, productName: 'TESTE', purchaseQtd: 1, price: 5});
+    }else{
+      this.purchase.some(el => el.purchaseQtd++);
+      this.purchase.some(el => el.price += valor);
+    }
+
+    console.log(this.purchase);*/
+
     this.getCategorys();
 
-    /*var formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    });*/
-
-    console.log(this.formatter.format(7));
-
-    /*if(this.value && this.folder === 'produtos') {
-      this.getCatById(this.value);
-      this.getProductsByCat(this.value);
-    }else if(this.value && this.folder === 'produto'){
-      //this.getCatById(this.persistentCat);
-      this.getProductById(this.value);
-      console.log('Folder: ' + this.folder);
-      console.log('Value: ' + this.value);
-      console.log('Cat: ' + this.productCat);
-    }*/
     if(this.productCat && this.folder === 'produtos') {
       this.getCatById(this.productCat);
       this.getProductsByCat(this.productCat);
@@ -131,8 +133,6 @@ export class FolderPage implements OnInit {
   getProductById(id: number) {
     this.shopService.getProductById(id).subscribe((product: Product) => {
       this.product = product;
-      //console.log(product[0]);
-      //console.log('Cat: ' + product);
     });
   }
 }
