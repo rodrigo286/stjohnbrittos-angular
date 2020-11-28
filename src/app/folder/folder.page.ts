@@ -15,7 +15,6 @@ export class FolderPage implements OnInit {
   public productCat: number;
   public productId: number;
 
-  //category = {} as Category;
   categorys: Category[];
   category: Category;
   products: Product[];
