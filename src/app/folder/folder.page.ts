@@ -40,7 +40,6 @@ export class FolderPage implements OnInit {
   }
 
   public remQuantity(){
-    //if(this.quantity > 1)
     this.quantity--;
     if(this.quantity === 0)
       this.quantity = -1;
@@ -59,8 +58,6 @@ export class FolderPage implements OnInit {
       this.actualQuantity = 0;
     }
 
-    console.log('Atual: ' + this.actualQuantity);
-
     if (!found && this.quantity > 0){
       this.purchase.push({id: this.purchase.length-1 + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: (this.quantity * this.product[0].price)});
     }else{
@@ -75,22 +72,6 @@ export class FolderPage implements OnInit {
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
     this.productId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
-
-    //this.purchase.push({id: 0, productId: 10, productName: 'TESTE', purchaseQtd: 1, price: 1});
-
-    /*let valor = 5;
-
-    const { length } = this.purchase;
-    const id = length + 1;
-    const found = this.purchase.some(el => el.productId === 11);
-    if (!found){
-      this.purchase.push({id: 1, productId: 10, productName: 'TESTE', purchaseQtd: 1, price: 5});
-    }else{
-      this.purchase.some(el => el.purchaseQtd++);
-      this.purchase.some(el => el.price += valor);
-    }
-
-    console.log(this.purchase);*/
 
     this.getCategorys();
 
