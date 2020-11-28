@@ -23,4 +23,13 @@ export class PurchaseService {
   public addPurchase(productId: number, productName: string, quantity: number, price: number){
     this.purchase.push({productId, productName, quantity, price});
   }
+
+  public plusQuantity(quantity: number, price: number){
+    this.purchase.some(el => el.quantity += quantity);
+    this.purchase.some(el => el.price += (quantity * price));
+  }
+
+  public productExists(productId: number){
+    return this.purchase.some(el => el.productId === productId);
+  }
 }

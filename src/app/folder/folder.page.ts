@@ -17,22 +17,22 @@ export class FolderPage implements OnInit {
   public productCat: number;
   public productId: number;
 
+  public quantity: number = 1;
+  public actualQuantity: number = 0;
+
   public carrinho;
   public purchase;
   //public addToCarrinho = '';
-
-  categorys: Category[];
-  category: Category;
-  products: Product[];
-  product: Product;
-  //purchase:any = [];
 
   public formatter = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
   });
 
-  public quantity: number = 1;
-  public actualQuantity: number = 0;
+
+  categorys: Category[];
+  category: Category;
+  products: Product[];
+  product: Product;
 
   /*public addToCarrinho(){
     this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.purchase.productId, this.purchase.productName, this.purchase.purchaseQtd, this.purchase.price);
@@ -50,15 +50,14 @@ export class FolderPage implements OnInit {
       this.quantity = -1;
   }
 
-  public addPurchase(){
-    this.purchaseService.addPurchase(this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity * this.product[0].price));
-
-    //this.addToCarrinho();
+  public check(){
+    let found = this.purchaseService.productExists(this.product[0].productId);
+    if(found)
+      console.log('Encontrado !');
   }
 
-  /*public addPurchase(){
-    const {length} = this.purchase;
-    const found = this.purchase.some(el => el.productId === this.product[0].productId);
+  public addPurchase(){
+    let found = this.purchaseService.productExists(this.product[0].productId);
 
     this.actualQuantity += this.quantity;
     if(this.actualQuantity < 0)
@@ -70,14 +69,13 @@ export class FolderPage implements OnInit {
     }
 
     if (!found && this.quantity > 0){
-      this.purchase.push({id: this.purchase.length + 1, productId: this.product[0].productId, productName: this.product[0].productName, purchaseQtd: this.quantity, price: (this.quantity * this.product[0].price)});
+      this.purchaseService.addPurchase(this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity * this.product[0].price));
     }else{
-      this.purchase.some(el => el.purchaseQtd += this.quantity);
-      this.purchase.some(el => el.price += (this.quantity * this.product[0].price));
+      this.purchaseService.plusQuantity(this.quantity, this.product[0].price); ;
     }
 
-    this.addToCarrinho();
-  }*/
+    //this.addToCarrinho();
+  }
 
   constructor(private activatedRoute: ActivatedRoute, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService, private purchaseService: PurchaseService) { }
 
