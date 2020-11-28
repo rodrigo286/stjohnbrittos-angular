@@ -120,18 +120,31 @@
       </ion-toolbar>
     </ion-header>
 
-      <ion-item *ngFor="let item of carrinho">
-      <ion-label slot="start">
-        {{ item.productName }} x {{ item.purchaseQtd }}
-      </ion-label>
-      <ion-label slot="end">
-        R$ {{ item.total }}
-      </ion-label>
-    </ion-item>
+    <!--<ng-template [ngIf]="carrinho">-->
+    <ng-template [ngIf]="carrinho?.length > 0">
 
-    <section class="full-width">
-      <ion-button (click)="check()" expand="full" color="secondary">Efetuar pagamento</ion-button>
-    </section>
+      <ion-item *ngFor="let item of carrinho">
+        <ion-label slot="start">
+          {{ item.productName }} x {{ item.purchaseQtd }}
+        </ion-label>
+        <ion-label slot="end">
+          R$ {{ item.total }}
+        </ion-label>
+      </ion-item>
+
+      <section class="full-width">
+        <ion-button (click)="check()" expand="full" color="secondary">Efetuar pagamento</ion-button>
+      </section>
+
+    </ng-template>
+
+    <ng-template [ngIf]="carrinho?.length < 0">
+
+      <ion-item *ngFor="let item of carrinho">
+        Seu carrinho está vazio no momento !
+      </ion-item>
+
+    </ng-template>
 
     <pre>
       {{ carrinho | json }}
