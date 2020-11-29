@@ -25,10 +25,10 @@ export class CarrinhoService {
   private async fetchCarrinho(){
     this.carrinho = (await this.storage.get('carrinho')) ?? [];
     if (Array.isArray(this.carrinho) && this.carrinho.length === 0){
-      console.log('Carrinho está vazio..');
+      //console.log('Carrinho está vazio..');
       this.cartIsEmpty = true;
     }else{
-      console.log('Carrinho está cheio..');
+      //console.log('Carrinho está cheio..');
       this.cartIsEmpty = false;
     }
   }

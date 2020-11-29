@@ -48,6 +48,10 @@ export class FolderPage implements OnInit {
   public check(){
   }
 
+  public storeToPedidos(){
+    // * //
+  }
+
   public addToCarrinho(){
     let found = this.carrinhoService.productExists(this.product[0].productId);
 
