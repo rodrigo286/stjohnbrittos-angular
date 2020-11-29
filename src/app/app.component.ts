@@ -28,9 +28,9 @@ export class AppComponent implements OnInit {
       icon: 'search'
     },
     {
-      title: 'Meu perfil',
-      url: '/folder/Perfil',
-      icon: 'person'
+      title: 'Configurações',
+      url: '/folder/Config',
+      icon: 'cog'
     },
     {
       title: 'Sobre nós',

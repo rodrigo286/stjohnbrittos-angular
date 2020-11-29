@@ -120,8 +120,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <!--<ng-template [ngIf]="carrinho">-->
-    <ng-template [ngIf]="itensNoCarrinho">
+    <ng-template [ngIf]="!cartIsEmpty">
 
       <ion-item *ngFor="let item of carrinho">
         <ion-label slot="start">
@@ -133,12 +132,12 @@
       </ion-item>
 
       <section class="full-width">
-        <ion-button (click)="check()" expand="full" color="secondary">Efetuar pagamento</ion-button>
+        <ion-button (click)="check()" expand="full" color="secondary">Efetuar pedido</ion-button>
       </section>
 
     </ng-template>
 
-    <ng-template [ngIf]="!itensNoCarrinho">
+    <ng-template [ngIf]="cartIsEmpty">
 
       <ion-item>
         Seu carrinho está vazio no momento !

@@ -19,7 +19,7 @@ export class FolderPage implements OnInit {
 
   public quantity: number = 1;
   public actualQuantity: number = 0;
-  public itensNoCarrinho: boolean = false;
+  public cartIsEmpty: boolean = false;
 
   public carrinho;
   public purchase;
@@ -47,7 +47,6 @@ export class FolderPage implements OnInit {
   }
 
   public check(){
-    console.log('Encontrado !');
   }
 
   public addToCarrinho(){
@@ -61,15 +60,15 @@ export class FolderPage implements OnInit {
       this.carrinho.pop();
       this.actualQuantity = 0;
       //this.itensNoCarrinho = false;
-      this.carrinhoService.cartEmpty(false);
+     // this.carrinhoService.cartEmpty(false);
     }
 
     if (!found && this.quantity > 0){
       this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity *this.product[0].price));
-      this.carrinhoService.cartEmpty(true);
+      //this.carrinhoService.cartEmpty(true);
     }else{
       this.carrinhoService.plusQuantity(this.quantity, this.product[0].price);
-      this.carrinhoService.cartEmpty(true);
+      //this.carrinhoService.cartEmpty(true);
     }
 
     this.carrinhoService.updateStorage();
@@ -100,7 +99,7 @@ export class FolderPage implements OnInit {
 
     setTimeout(() => {
        this.carrinho = this.carrinhoService.itensCarrinho();
-       //this.carrinhoService.cartEmpty(true);
+       this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
     }, 1000)
   }
 
