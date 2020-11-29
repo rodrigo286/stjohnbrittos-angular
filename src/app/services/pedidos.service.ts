@@ -30,7 +30,7 @@ export class PedidosService {
   private async fetchPedidos(){
     this.pedidos = (await this.storage.get('pedidos')) ?? [];
     this.pedidos_detail = (await this.storage.get('pedidos_detail')) ?? [];
-    if (Array.isArray(this.pedidos_detail) && this.pedidos_detail.length === 0){
+    if (Array.isArray(this.pedidos) && this.pedidos.length === 0){
       this.orderIsEmpty = true;
     }else{
       this.orderIsEmpty = false;
@@ -50,8 +50,11 @@ export class PedidosService {
     return this.pedidos_detail;
   }
 
-  public addToPedido(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
+  public addPedido(id: number){
     this.pedidos.push({id});
+  }
+
+  public addToPedido(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
     this.pedidos_detail.push({id, productId, productName, purchaseQtd, total});
   }
 

@@ -45,57 +45,35 @@ export class FolderPage implements OnInit {
   }
 
   public carrinho;
-  public pedidos;
-  public pedidosTotal;
-  public pedidosDetail;
-
-  /*public pedidos = [];
-  public pedidoTotal = [];
-  public pedidos_detail = [];*/
+  public pedidos = [];
+  public pedidosTotal = [];
+  public pedidosDetail = [];
 
   public check(){
-    /*for (let pedido of this.pedidos){
-      console.log('Pedido: ' + pedido.id);
-      let total = 0;
-      for (let i = 0; i < this.pedidos_detail.length; i++){
-        if(pedido.id == this.pedidos_detail[i].id){
-          total += this.pedidos_detail[i].total;
-          console.log(this.pedidos_detail[i]);
-        }
-      }
-      console.log('Total: ' + total);
-    }*/
+    this.carrinhoService.wipeCarrinho();
   }
 
   public storeToPedidos(){
-    const id = this.pedidosDetail.length + 1;
+    const id = this.pedidos.length + 1;
 
+    this.pedidoService.addPedido(id);
     for (let i = 0; i < this.carrinho.length; i++) {
-      let found = this.pedidoService.productExists(this.carrinho[i].productId);
-
       const productId = this.carrinho[i].productId;
       const productName = this.carrinho[i].productName;
       const purchaseQtd = this.carrinho[i].purchaseQtd;
       const total = this.carrinho[i].total;
 
-      console.log('I: ' + i);
-      console.log('ID: ' + id);
-      console.log('ProductId: ' + productId);
-      console.log('ProductName: ' + productName);
-      console.log('PurchaseQtd: ' + purchaseQtd);
-      console.log('Total: ' + total);
-
-      /*if (!found){
-        this.pedidoService.addToPedido(id, productId, productName, purchaseQtd, total);
-        this.carrinho.pop();
-        this.actualQuantity = 0;
-      }else{
-        this.actualQuantity = 0;
-      }*/
+      this.pedidoService.addToPedido(id, productId, productName, purchaseQtd, total);
     }
 
+    window.location.replace("/folder/Meus-pedidos");
+    //this.carrinho.pop();
+    this.actualQuantity = 0;
+    //this.carrinhoService.updateStorage();
+    //this.carrinho.pop();
+    this.carrinhoService.wipeCarrinho();
+    this.pedidoService.updateStorage();
     //window.location.replace("/folder/Meus-pedidos");
-    //this.pedidoService.updateStorage();
   }
 
   public addToCarrinho(){
@@ -142,30 +120,13 @@ export class FolderPage implements OnInit {
        this.pedidosDetail = this.pedidoService.itensPedido();
        this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
        this.orderIsEmpty = this.pedidoService.orderIsEmpty === true ? true : false;
+       for (let pedido of this.pedidos){
+        this.pedidosTotal[pedido.id] = 0;
+        for (let i = 0; i < this.pedidosDetail.length; i++)
+          if(pedido.id == this.pedidosDetail[i].id)
+            this.pedidosTotal[pedido.id] += this.pedidosDetail[i].total;
+      }
     }, 1000)
-
-    /*this.pedidos = [
-      {'id': 0},
-      {'id': 1},
-      {'id': 2}
-    ];
-
-    this.pedidos_detail = [
-      {'id': 0, 'productId': 0, 'productName': 'TESTE 0', 'purchaseQtd': 5, 'total': 20},
-      {'id': 1, 'productId': 1, 'productName': 'TESTE 1', 'purchaseQtd': 5, 'total': 8},
-      {'id': 0, 'productId': 2, 'productName': 'TESTE 2', 'purchaseQtd': 5, 'total': 15.5},
-      {'id': 2, 'productId': 3, 'productName': 'TESTE 3', 'purchaseQtd': 5, 'total': 20}
-    ];
-
-    for (let pedido of this.pedidos){
-      this.pedidoTotal[pedido.id] = 0;
-      for (let i = 0; i < this.pedidos_detail.length; i++)
-        if(pedido.id == this.pedidos_detail[i].id)
-          this.pedidoTotal[pedido.id] += this.pedidos_detail[i].total;
-    }*/
-
-    /*for (let total of this.pedidoTotal)
-      console.log(total);*/
   }
 
   getCategorys() {
