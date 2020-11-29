@@ -23,7 +23,6 @@ export class FolderPage implements OnInit {
 
   public carrinho;
   public purchase;
-  //public addToCarrinho = '';
 
   public formatter = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
@@ -59,16 +58,12 @@ export class FolderPage implements OnInit {
     if(this.actualQuantity <= 0){
       this.carrinho.pop();
       this.actualQuantity = 0;
-      //this.itensNoCarrinho = false;
-     // this.carrinhoService.cartEmpty(false);
     }
 
     if (!found && this.quantity > 0){
       this.carrinhoService.addToCarrinho(this.carrinho.length + 1, this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity *this.product[0].price));
-      //this.carrinhoService.cartEmpty(true);
     }else{
       this.carrinhoService.plusQuantity(this.quantity, this.product[0].price);
-      //this.carrinhoService.cartEmpty(true);
     }
 
     this.carrinhoService.updateStorage();
@@ -92,9 +87,6 @@ export class FolderPage implements OnInit {
     }else if(this.productId && this.folder === 'produto'){
       this.getCatById(this.productCat);
       this.getProductById(this.productId);
-      /*console.log('Folder: ' + this.folder);
-      console.log('Product: ' + this.productId);
-      console.log('Cat: ' + this.productCat);*/
     }
 
     setTimeout(() => {
