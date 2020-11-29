@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage'; 
 
-interface Pedido {
+interface Pedidos {
+  id: number;
+}
+
+interface Pedidos_detail {
   id: number;
   productId: number;
   productName: string;
@@ -16,45 +20,42 @@ export class PedidosService {
 
   public orderIsEmpty: boolean = false;
 
-  private pedido: Pedido[] = [];
+  private pedidos: Pedidos[] = [];
+  private pedidos_detail: Pedidos_detail[] = [];
 
   constructor(private storage: Storage) {
     this.fetchPedido();
    }
 
   private async fetchPedido(){
-    this.pedido = (await this.storage.get('pedido')) ?? [];
-    if (Array.isArray(this.pedido) && this.pedido.length === 0){
+    this.pedidos_detail = (await this.storage.get('pedido')) ?? [];
+    if (Array.isArray(this.pedidos_detail) && this.pedidos_detail.length === 0){
       this.orderIsEmpty = true;
     }else{
       this.orderIsEmpty = false;
     }
   }
 
-  groupArr = this.pedido.reduce((r,{id})=>{
+  groupArr = this.pedidos_detail.reduce((r,{id})=>{
     if(!r.some(o=>o.id==id)){
-      r.push({id,groupItem:this.pedido.filter(v=>v.id==id)});
+      r.push({id,groupItem:this.pedidos_detail.filter(v=>v.id==id)});
 }
 return r;
 },[]);
 
   public async updateStorage(){
-    this.storage.set('pedido', this.pedido);
+    this.storage.set('pedido', this.pedidos_detail);
   }
 
   public itensPedido(){
-    return this.pedido;
-  }
-
-  public betaitens(){
-    return this.groupArr;
+    return this.pedidos_detail;
   }
 
   public addToPedido(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
-    this.pedido.push({id, productId, productName, purchaseQtd, total});
+    this.pedidos_detail.push({id, productId, productName, purchaseQtd, total});
   }
 
   public productExists(productId: number){
-    return this.pedido.some(el => el.productId === productId);
+    return this.pedidos_detail.some(el => el.productId === productId);
   }
 }
