@@ -44,13 +44,23 @@ export class FolderPage implements OnInit {
       this.quantity = -1;
   }
 
+  public addQuantityMenu(){
+    if(this.quantity < 100)
+     this.quantity++;
+  }
+
+  public remQuantityMenu(){
+    if(this.quantity > 1)
+      this.quantity--;
+  }
+
   public carrinho;
   public pedidos = [];
   public pedidosTotal = [];
   public pedidosDetail = [];
 
-  public check(){
-    this.carrinhoService.wipeCarrinho();
+  public check(id: number){
+    console.log(id);
   }
 
   public storeToPedidos(){

@@ -82,12 +82,12 @@
     <ion-toolbar color="light">
       <ion-input [(ngModel)]="quantity" type="number"></ion-input>
       <ion-buttons slot="start">
-        <ion-button (click)="remQuantity()">
+        <ion-button (click)="remQuantityMenu()">
           <ion-icon slot="icon-only" name="remove"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-buttons slot="end">
-        <ion-button (click)="addQuantity()">
+        <ion-button (click)="addQuantityMenu()">
           <ion-icon slot="icon-only" name="add"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -99,9 +99,9 @@
 
   </ion-card>
 
-  <pre>
+  <!--<pre>
     {{ carrinho | json }}
-  </pre>
+  </pre>-->
 
   </ng-template>
 
@@ -124,13 +124,18 @@
 
     <ng-template [ngIf]="!cartIsEmpty">
 
-      <ion-item *ngFor="let item of carrinho">
+      <ion-item *ngFor="let item of carrinho; let i = index;">
         <ion-label slot="start">
           {{ item.productName }} x {{ item.purchaseQtd }}
         </ion-label>
         <ion-label slot="end">
           R$ {{ item.total }}
         </ion-label>
+
+        <section class="full-width">
+          <ion-button (click)="check(i)" expand="full" color="secondary">Debug</ion-button>
+        </section>
+
       </ion-item>
 
       <section class="full-width" *ngIf="carrinho">
@@ -197,35 +202,6 @@
 
       </ion-card>
 
-      <!--<ion-card *ngFor="let pedido of pedidos">
-
-        <ion-card-header>
-          <ion-card-title>Pedido Nº {{ pedido.id }}</ion-card-title>
-        </ion-card-header>
-
-        <ng-container *ngFor="let detail of pedidos_detail">
-          <ion-item *ngIf="pedido.id === detail.id;">
-            <ion-label>
-              {{ detail.productName }} x {{ detail.purchaseQtd }}
-            </ion-label>
-            <ion-label slot="end">
-              R$ {{ detail.total }}
-            </ion-label>
-          </ion-item>
-        </ng-container>
-
-        <ion-item>
-          <ion-label>
-            Total deste pedido: <b>R$ {{ pedidoTotal[pedido.id] }}</b>
-          </ion-label>
-        </ion-item>
-
-      </ion-card>-->
-
-      <section class="full-width">
-        <ion-button (click)="check()" expand="full" color="secondary">Debug</ion-button>
-      </section>
-
     </ng-template>
 
     <ng-template [ngIf]="orderIsEmpty">
@@ -242,9 +218,9 @@
 
     </ng-template>
 
-    <pre>
+    <!--<pre>
       {{ pedidosDetail | json }}
-    </pre>
+    </pre>-->
 
   </ng-template>
 
