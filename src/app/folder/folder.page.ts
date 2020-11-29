@@ -5,6 +5,7 @@ import { Category } from '../models/categorys';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product';
 import { CarrinhoService } from '../services/carrinho.service';
+import { PedidosService } from '../services/pedidos.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,9 +21,10 @@ export class FolderPage implements OnInit {
   public quantity: number = 1;
   public actualQuantity: number = 0;
   public cartIsEmpty: boolean = false;
+  public orderIsEmpty: boolean = false;
 
   public carrinho;
-  public purchase;
+  public pedido;
 
   public formatter = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
@@ -49,7 +51,18 @@ export class FolderPage implements OnInit {
   }
 
   public storeToPedidos(){
-    // * //
+    let found = this.pedidoService.productExists(this.product[0].productId);
+
+    if (!found && this.quantity > 0){
+      this.pedidoService.addToPedido(this.carrinho.length + 1, this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity *this.product[0].price));
+      this.carrinho.pop();
+      this.actualQuantity = 0;
+    }else{
+      this.actualQuantity = 0;
+      this.Routes.navigate(['Meus-pedidos']);
+    }
+
+    this.pedidoService.updateStorage();
   }
 
   public addToCarrinho(){
@@ -76,7 +89,7 @@ export class FolderPage implements OnInit {
     //this.Routes.navigateByUrl('folder/Carrinho');
   }
 
-  constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService) { }
+  constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService, private pedidoService: PedidosService) { }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
@@ -96,6 +109,7 @@ export class FolderPage implements OnInit {
     setTimeout(() => {
        this.carrinho = this.carrinhoService.itensCarrinho();
        this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
+       this.orderIsEmpty = this.pedidoService.orderIsEmpty === true ? true : false;
     }, 1000)
   }
 

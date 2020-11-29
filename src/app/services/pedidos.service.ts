@@ -14,6 +14,8 @@ interface Pedido {
 })
 export class PedidosService {
 
+  public orderIsEmpty: boolean = false;
+
   private pedido: Pedido[] = [];
 
   constructor(private storage: Storage) {
@@ -22,17 +24,22 @@ export class PedidosService {
 
   private async fetchPedido(){
     this.pedido = (await this.storage.get('pedido')) ?? [];
+    if (Array.isArray(this.pedido) && this.pedido.length === 0){
+      this.orderIsEmpty = true;
+    }else{
+      this.orderIsEmpty = false;
+    }
   }
 
   public async updateStorage(){
     this.storage.set('pedido', this.pedido);
   }
 
-  public itensCarrinho(){
+  public itensPedido(){
     return this.pedido;
   }
 
-  public addToCarrinho(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
+  public addToPedido(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
     this.pedido.push({id, productId, productName, purchaseQtd, total});
   }
 
