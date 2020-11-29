@@ -25,6 +25,7 @@ export class FolderPage implements OnInit {
 
   public carrinho;
   public pedido;
+  public groupArr;
 
   public formatter = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
@@ -47,24 +48,35 @@ export class FolderPage implements OnInit {
       this.quantity = -1;
   }
 
-  //public pedidos = Array([]);
-
-  public pedidos = Array([]);
+  public pedidos = [];
+  public pedidoTotal = [];
+  public pedidos_detail = [];
 
   public check(){
-   /* let arr = [
-      {'name':'Mary', 'id':'0'},
-      {'name':'Joseph', 'id':'0'},
-      {'name':'John', 'id':'1'},
-      {'name':'Carl', 'id':'1'},
-      {'name':'Jacob', 'id':'2'}
-    ];
+    /*this.pedidos = [
+      {'id': 0},
+      {'id': 1},
+      {'id': 2}
+    ];*/
 
-    /*this.pedidos[0].push('teste');
-    this.pedidos[1].push('teste 2');
-    this.pedidos[2].push('teste 3');*/
+    /*this.pedidos_detail = [
+      {'id': 0, 'productId': 0, 'productName': 'TESTE 0', 'purchaseQtd': 5, 'total': 20},
+      {'id': 1, 'productId': 1, 'productName': 'TESTE 1', 'purchaseQtd': 5, 'total': 8},
+      {'id': 0, 'productId': 2, 'productName': 'TESTE 2', 'purchaseQtd': 5, 'total': 15.5},
+      {'id': 2, 'productId': 3, 'productName': 'TESTE 3', 'purchaseQtd': 5, 'total': 20}
+    ];*/
 
-    //console.log(arr = arr.sort((a,b) => a.chapter > b.chapter ? 1 : -1););
+    for (let pedido of this.pedidos){
+      console.log('Pedido: ' + pedido.id);
+      let total = 0;
+      for (let i = 0; i < this.pedidos_detail.length; i++){
+        if(pedido.id == this.pedidos_detail[i].id){
+          total += this.pedidos_detail[i].total;
+          console.log(this.pedidos_detail[i]);
+        }
+      }
+      console.log('Total: ' + total);
+    }
   }
 
   public storeToPedidos(){
@@ -128,6 +140,29 @@ export class FolderPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService, private pedidoService: PedidosService) { }
 
   ngOnInit() {
+    this.pedidos = [
+      {'id': 0},
+      {'id': 1},
+      {'id': 2}
+    ];
+
+    this.pedidos_detail = [
+      {'id': 0, 'productId': 0, 'productName': 'TESTE 0', 'purchaseQtd': 5, 'total': 20},
+      {'id': 1, 'productId': 1, 'productName': 'TESTE 1', 'purchaseQtd': 5, 'total': 8},
+      {'id': 0, 'productId': 2, 'productName': 'TESTE 2', 'purchaseQtd': 5, 'total': 15.5},
+      {'id': 2, 'productId': 3, 'productName': 'TESTE 3', 'purchaseQtd': 5, 'total': 20}
+    ];
+
+    for (let pedido of this.pedidos){
+      this.pedidoTotal[pedido.id] = 0;
+      for (let i = 0; i < this.pedidos_detail.length; i++)
+        if(pedido.id == this.pedidos_detail[i].id)
+          this.pedidoTotal[pedido.id] += this.pedidos_detail[i].total;
+    }
+
+    for (let total of this.pedidoTotal)
+      console.log(total);
+
     this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
     this.productId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
@@ -145,6 +180,7 @@ export class FolderPage implements OnInit {
     setTimeout(() => {
        this.carrinho = this.carrinhoService.itensCarrinho();
        this.pedido = this.pedidoService.itensPedido();
+       this.groupArr = this.pedidoService.itensPedido();
        this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
        this.orderIsEmpty = this.pedidoService.orderIsEmpty === true ? true : false;
     }, 1000)

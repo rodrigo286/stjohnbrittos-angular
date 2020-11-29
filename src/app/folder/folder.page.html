@@ -172,19 +172,26 @@
 
     <ng-template [ngIf]="!orderIsEmpty">
 
-      <ion-card *ngFor="let item; of pedido">
+      <ion-card *ngFor="let pedido of pedidos">
 
         <ion-card-header>
-          <ion-card-title>Pedido Nº {{ item.id }}</ion-card-title>
-          <ion-card-title>Itens: {{ i }}</ion-card-title>
+          <ion-card-title>Pedido Nº {{ pedido.id }}</ion-card-title>
         </ion-card-header>
 
+        <ng-container *ngFor="let detail of pedidos_detail">
+          <ion-item *ngIf="pedido.id === detail.id;">
+            <ion-label>
+              {{ detail.productName }} x {{ detail.purchaseQtd }}
+            </ion-label>
+            <ion-label slot="end">
+              R$ {{ detail.total }}
+            </ion-label>
+          </ion-item>
+        </ng-container>
+
         <ion-item>
-          <ion-label slot="start">
-            {{ item.productName }} x {{ item.purchaseQtd }}
-          </ion-label>
-          <ion-label slot="end">
-            R$ {{ item.total }}
+          <ion-label>
+            Total deste pedido: <b>R$ {{ pedidoTotal[pedido.id] }}</b>
           </ion-label>
         </ion-item>
 

@@ -31,12 +31,23 @@ export class PedidosService {
     }
   }
 
+  groupArr = this.pedido.reduce((r,{id})=>{
+    if(!r.some(o=>o.id==id)){
+      r.push({id,groupItem:this.pedido.filter(v=>v.id==id)});
+}
+return r;
+},[]);
+
   public async updateStorage(){
     this.storage.set('pedido', this.pedido);
   }
 
   public itensPedido(){
     return this.pedido;
+  }
+
+  public betaitens(){
+    return this.groupArr;
   }
 
   public addToPedido(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
