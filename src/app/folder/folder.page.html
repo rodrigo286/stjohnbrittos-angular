@@ -74,10 +74,10 @@
         {{ item.price }}
     </ion-item>
 
-    <ion-item>
+    <!--<ion-item>
       <ion-icon name='archive' item-start style="color: #000000"></ion-icon>
         Disponível: {{ item.quantity }}
-    </ion-item>
+    </ion-item>-->
 
     <ion-toolbar color="light">
       <ion-input [(ngModel)]="quantity" type="number"></ion-input>
@@ -172,7 +172,7 @@
 
     <ng-template [ngIf]="!orderIsEmpty">
 
-      <ion-card *ngFor="let pedido of pedidos">
+      <!--<ion-card *ngFor="let pedido of pedidos">
 
         <ion-card-header>
           <ion-card-title>Pedido Nº {{ pedido.id }}</ion-card-title>
@@ -195,7 +195,7 @@
           </ion-label>
         </ion-item>
 
-      </ion-card>
+      </ion-card>-->
 
       <section class="full-width">
         <ion-button (click)="check()" expand="full" color="secondary">Debug</ion-button>
@@ -218,7 +218,7 @@
     </ng-template>
 
     <pre>
-      {{ pedido | json }}
+      {{ pedidosDetail | json }}
     </pre>
 
   </ng-template>

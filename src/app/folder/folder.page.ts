@@ -23,10 +23,6 @@ export class FolderPage implements OnInit {
   public cartIsEmpty: boolean = false;
   public orderIsEmpty: boolean = false;
 
-  public carrinho;
-  public pedido;
-  public groupArr;
-
   public formatter = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
   });
@@ -48,25 +44,17 @@ export class FolderPage implements OnInit {
       this.quantity = -1;
   }
 
-  public pedidos = [];
+  public carrinho;
+  public pedidos;
+  public pedidosTotal;
+  public pedidosDetail;
+
+  /*public pedidos = [];
   public pedidoTotal = [];
-  public pedidos_detail = [];
+  public pedidos_detail = [];*/
 
   public check(){
-    /*this.pedidos = [
-      {'id': 0},
-      {'id': 1},
-      {'id': 2}
-    ];*/
-
-    /*this.pedidos_detail = [
-      {'id': 0, 'productId': 0, 'productName': 'TESTE 0', 'purchaseQtd': 5, 'total': 20},
-      {'id': 1, 'productId': 1, 'productName': 'TESTE 1', 'purchaseQtd': 5, 'total': 8},
-      {'id': 0, 'productId': 2, 'productName': 'TESTE 2', 'purchaseQtd': 5, 'total': 15.5},
-      {'id': 2, 'productId': 3, 'productName': 'TESTE 3', 'purchaseQtd': 5, 'total': 20}
-    ];*/
-
-    for (let pedido of this.pedidos){
+    /*for (let pedido of this.pedidos){
       console.log('Pedido: ' + pedido.id);
       let total = 0;
       for (let i = 0; i < this.pedidos_detail.length; i++){
@@ -76,50 +64,44 @@ export class FolderPage implements OnInit {
         }
       }
       console.log('Total: ' + total);
-    }
+    }*/
   }
 
   public storeToPedidos(){
-    //let found = this.pedidoService.productExists(this.carrinho[0].productId);
-
-    const id = this.pedido.length + 1;
+    const id = this.pedidosDetail.length + 1;
 
     for (let i = 0; i < this.carrinho.length; i++) {
       let found = this.pedidoService.productExists(this.carrinho[i].productId);
 
-      //const id = this.pedido.length + 1;
       const productId = this.carrinho[i].productId;
       const productName = this.carrinho[i].productName;
       const purchaseQtd = this.carrinho[i].purchaseQtd;
       const total = this.carrinho[i].total;
 
-      /*console.log('I: ' + i);
+      console.log('I: ' + i);
       console.log('ID: ' + id);
       console.log('ProductId: ' + productId);
       console.log('ProductName: ' + productName);
       console.log('PurchaseQtd: ' + purchaseQtd);
-      console.log('Total: ' + total);*/
+      console.log('Total: ' + total);
 
-      if (!found){
+      /*if (!found){
         this.pedidoService.addToPedido(id, productId, productName, purchaseQtd, total);
-        //this.carrinho.pop();
+        this.carrinho.pop();
         this.actualQuantity = 0;
       }else{
         this.actualQuantity = 0;
-        //window.location.replace("/folder/Meus-pedidos");
-      }
+      }*/
     }
 
-  window.location.replace("/folder/Meus-pedidos");
-  this.pedidoService.updateStorage();
+    //window.location.replace("/folder/Meus-pedidos");
+    //this.pedidoService.updateStorage();
   }
 
   public addToCarrinho(){
     let found = this.carrinhoService.productExists(this.product[0].productId);
 
     this.actualQuantity += this.quantity;
-    /*if(this.actualQuantity < 0)
-      this.actualQuantity = 0;*/
 
     if(this.actualQuantity <= 0){
       this.carrinho.pop();
@@ -140,7 +122,29 @@ export class FolderPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private Routes: Router, private shopService: ShopService, private http : HttpClient, private carrinhoService: CarrinhoService, private pedidoService: PedidosService) { }
 
   ngOnInit() {
-    this.pedidos = [
+    this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
+    this.productId = +this.activatedRoute.snapshot.paramMap.get('id');
+    this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
+
+    this.getCategorys();
+
+    if(this.productCat && this.folder === 'produtos') {
+      this.getCatById(this.productCat);
+      this.getProductsByCat(this.productCat);
+    }else if(this.productId && this.folder === 'produto'){
+      this.getCatById(this.productCat);
+      this.getProductById(this.productId);
+    }
+
+    setTimeout(() => {
+       this.carrinho = this.carrinhoService.itensCarrinho();
+       this.pedidos = this.pedidoService.Pedido();
+       this.pedidosDetail = this.pedidoService.itensPedido();
+       this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
+       this.orderIsEmpty = this.pedidoService.orderIsEmpty === true ? true : false;
+    }, 1000)
+
+    /*this.pedidos = [
       {'id': 0},
       {'id': 1},
       {'id': 2}
@@ -158,32 +162,10 @@ export class FolderPage implements OnInit {
       for (let i = 0; i < this.pedidos_detail.length; i++)
         if(pedido.id == this.pedidos_detail[i].id)
           this.pedidoTotal[pedido.id] += this.pedidos_detail[i].total;
-    }
+    }*/
 
-    for (let total of this.pedidoTotal)
-      console.log(total);
-
-    this.folder = this.activatedRoute.snapshot.paramMap.get('dir');
-    this.productId = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.productCat = +this.activatedRoute.snapshot.paramMap.get('cat');
-
-    this.getCategorys();
-
-    if(this.productCat && this.folder === 'produtos') {
-      this.getCatById(this.productCat);
-      this.getProductsByCat(this.productCat);
-    }else if(this.productId && this.folder === 'produto'){
-      this.getCatById(this.productCat);
-      this.getProductById(this.productId);
-    }
-
-    setTimeout(() => {
-       this.carrinho = this.carrinhoService.itensCarrinho();
-       this.pedido = this.pedidoService.itensPedido();
-       this.groupArr = this.pedidoService.itensPedido();
-       this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
-       this.orderIsEmpty = this.pedidoService.orderIsEmpty === true ? true : false;
-    }, 1000)
+    /*for (let total of this.pedidoTotal)
+      console.log(total);*/
   }
 
   getCategorys() {

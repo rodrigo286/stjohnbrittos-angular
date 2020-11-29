@@ -24,11 +24,12 @@ export class PedidosService {
   private pedidos_detail: Pedidos_detail[] = [];
 
   constructor(private storage: Storage) {
-    this.fetchPedido();
+    this.fetchPedidos();
    }
 
-  private async fetchPedido(){
-    this.pedidos_detail = (await this.storage.get('pedido')) ?? [];
+  private async fetchPedidos(){
+    this.pedidos = (await this.storage.get('pedidos')) ?? [];
+    this.pedidos_detail = (await this.storage.get('pedidos_detail')) ?? [];
     if (Array.isArray(this.pedidos_detail) && this.pedidos_detail.length === 0){
       this.orderIsEmpty = true;
     }else{
@@ -36,15 +37,13 @@ export class PedidosService {
     }
   }
 
-  groupArr = this.pedidos_detail.reduce((r,{id})=>{
-    if(!r.some(o=>o.id==id)){
-      r.push({id,groupItem:this.pedidos_detail.filter(v=>v.id==id)});
-}
-return r;
-},[]);
-
   public async updateStorage(){
-    this.storage.set('pedido', this.pedidos_detail);
+    this.storage.set('pedidos', this.pedidos);
+    this.storage.set('pedidos_detail', this.pedidos_detail);
+  }
+
+  public Pedido(){
+    return this.pedidos;
   }
 
   public itensPedido(){
@@ -52,6 +51,7 @@ return r;
   }
 
   public addToPedido(id: number, productId: number, productName: string, purchaseQtd: number, total: number){
+    this.pedidos.push({id});
     this.pedidos_detail.push({id, productId, productName, purchaseQtd, total});
   }
 
