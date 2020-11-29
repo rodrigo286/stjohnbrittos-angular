@@ -51,18 +51,30 @@ export class FolderPage implements OnInit {
   }
 
   public storeToPedidos(){
-    let found = this.pedidoService.productExists(this.product[0].productId);
+    let found = this.pedidoService.productExists(this.carrinho[0].productId);
 
-    if (!found && this.quantity > 0){
-      this.pedidoService.addToPedido(this.carrinho.length + 1, this.product[0].productId, this.product[0].productName, this.quantity, (this.quantity *this.product[0].price));
+    //alert(this.carrinho[0].productId);
+
+    for (let i = 0; i < this.carrinho.length; i++) {
+      console.log('ID: ' + this.pedido.length + 1);
+      console.log('ProductId: ' + this.carrinho[i].productId);
+      console.log('ProductName: ' + this.carrinho[i].productName);
+      console.log('PurchaseQtd: ' + this.carrinho[i].purchaseQtd);
+      console.log('Total: ' + this.carrinho[i].total);
+      //console.log('Quantity: ' + this.quantity);
+    }
+    //console.log(this.carrinho.length);
+
+    /*if (!found){
+      this.pedidoService.addToPedido(this.pedido.length + 1, this.carrinho[0].productId, this.carrinho[0].productName, this.product[0].purchaseQtd, this.product[0].total);
       this.carrinho.pop();
       this.actualQuantity = 0;
     }else{
       this.actualQuantity = 0;
       this.Routes.navigate(['Meus-pedidos']);
-    }
+    }*/
 
-    this.pedidoService.updateStorage();
+    //this.pedidoService.updateStorage();
   }
 
   public addToCarrinho(){
@@ -108,6 +120,7 @@ export class FolderPage implements OnInit {
 
     setTimeout(() => {
        this.carrinho = this.carrinhoService.itensCarrinho();
+       this.pedido = this.pedidoService.itensPedido();
        this.cartIsEmpty = this.carrinhoService.cartIsEmpty === true ? true : false;
        this.orderIsEmpty = this.pedidoService.orderIsEmpty === true ? true : false;
     }, 1000)

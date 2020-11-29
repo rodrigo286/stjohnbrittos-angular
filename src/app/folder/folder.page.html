@@ -55,7 +55,13 @@
 
   <ion-card class="ion-text-center">
     
-    <img width="100" src="{{ item.photo }}"/>
+    <ng-template [ngIf]="item.photo">
+      <img width="100" src="{{ item.photo }}"/>
+    </ng-template>
+
+    <ng-template [ngIf]="!item.photo">
+      <img width="125" src="https://stjohnbrittos.tk/writable/uploads/errors/no-image.png"/>
+    </ng-template>
 
     <ion-card-content>
       <ion-card-title>
@@ -132,7 +138,7 @@
       </ion-item>
 
       <section class="full-width">
-        <ion-button (click)="check()" expand="full" color="secondary">Efetuar pedido</ion-button>
+        <ion-button (click)="storeToPedidos()" expand="full" color="secondary">Efetuar pedido</ion-button>
       </section>
 
     </ng-template>
@@ -187,14 +193,20 @@
 
     <ng-template [ngIf]="orderIsEmpty">
 
-      <ion-item>
-        Você ainda não tem pedidos !
-      </ion-item>
+      <ion-card class="ion-text-center">
+        <ion-item>
+          Você ainda não tem pedidos !
+        </ion-item>
+
+        <section class="full-width">
+          <ion-button (click)="check()" expand="full" color="secondary">Ver categorias de produtos</ion-button>
+        </section>
+      </ion-card>
 
     </ng-template>
 
     <pre>
-      {{ carrinho | json }}
+      {{ pedido | json }}
     </pre>
 
   </ng-template>
