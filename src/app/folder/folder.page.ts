@@ -47,27 +47,46 @@ export class FolderPage implements OnInit {
       this.quantity = -1;
   }
 
+  //public pedidos = Array([]);
+
+  public pedidos = Array([]);
+
   public check(){
+   /* let arr = [
+      {'name':'Mary', 'id':'0'},
+      {'name':'Joseph', 'id':'0'},
+      {'name':'John', 'id':'1'},
+      {'name':'Carl', 'id':'1'},
+      {'name':'Jacob', 'id':'2'}
+    ];
+
+    /*this.pedidos[0].push('teste');
+    this.pedidos[1].push('teste 2');
+    this.pedidos[2].push('teste 3');*/
+
+    //console.log(arr = arr.sort((a,b) => a.chapter > b.chapter ? 1 : -1););
   }
 
   public storeToPedidos(){
-    let found = this.pedidoService.productExists(this.carrinho[0].productId);
+    //let found = this.pedidoService.productExists(this.carrinho[0].productId);
+
+    const id = this.pedido.length + 1;
 
     for (let i = 0; i < this.carrinho.length; i++) {
       let found = this.pedidoService.productExists(this.carrinho[i].productId);
 
-      const id = this.pedido.length + 1;
+      //const id = this.pedido.length + 1;
       const productId = this.carrinho[i].productId;
       const productName = this.carrinho[i].productName;
       const purchaseQtd = this.carrinho[i].purchaseQtd;
       const total = this.carrinho[i].total;
 
-      console.log('I: ' + i);
+      /*console.log('I: ' + i);
       console.log('ID: ' + id);
       console.log('ProductId: ' + productId);
       console.log('ProductName: ' + productName);
       console.log('PurchaseQtd: ' + purchaseQtd);
-      console.log('Total: ' + total);
+      console.log('Total: ' + total);*/
 
       if (!found){
         this.pedidoService.addToPedido(id, productId, productName, purchaseQtd, total);
@@ -75,11 +94,12 @@ export class FolderPage implements OnInit {
         this.actualQuantity = 0;
       }else{
         this.actualQuantity = 0;
-        window.location.replace("/folder/Meus-pedidos");
+        //window.location.replace("/folder/Meus-pedidos");
       }
     }
 
-   this.pedidoService.updateStorage();
+  window.location.replace("/folder/Meus-pedidos");
+  this.pedidoService.updateStorage();
   }
 
   public addToCarrinho(){
