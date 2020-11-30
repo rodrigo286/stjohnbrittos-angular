@@ -124,19 +124,37 @@
 
     <ng-template [ngIf]="!cartIsEmpty">
 
-      <ion-item *ngFor="let item of carrinho; let i = index;">
-        <ion-label slot="start">
-          {{ item.productName }} x {{ item.purchaseQtd }}
-        </ion-label>
-        <ion-label slot="end">
-          R$ {{ item.total }}
-        </ion-label>
+      <ng-container *ngFor="let item of carrinho; let i = index;">
 
-        <section class="full-width">
-          <ion-button (click)="check(i)" expand="full" color="secondary">Debug</ion-button>
-        </section>
+        <ion-item>
+          <ion-label slot="start">
+            {{ item.productName }}
+          </ion-label>
+          <ion-label slot="end">
+            R$ {{ item.total }}
+          </ion-label>
 
-      </ion-item>
+          <!--<section class="full-width">
+            <ion-button (click)="check(i)" expand="full" color="secondary">Debug</ion-button>
+          </section>-->
+
+        </ion-item>
+
+        <ion-toolbar color="light" class="ion-text-center app-header-statusbar">
+          {{ item.purchaseQtd }}
+          <ion-buttons slot="start">
+            <ion-button (click)="check(i)">
+              <ion-icon class="app-ion-icon" slot="icon-only" name="remove" ></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button (click)="check(i)">
+              <ion-icon class="app-ion-icon" slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+
+      </ng-container>
 
       <section class="full-width" *ngIf="carrinho">
         <ion-button (click)="storeToPedidos()" expand="full" color="secondary">Efetuar pedido</ion-button>

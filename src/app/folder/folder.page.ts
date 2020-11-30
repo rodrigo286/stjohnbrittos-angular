@@ -60,7 +60,13 @@ export class FolderPage implements OnInit {
   public pedidosDetail = [];
 
   public check(id: number){
-    console.log(id);
+    //this.carrinho[id].purchaseQtd++;
+
+    console.log(this.carrinho[id]);
+    console.log(this.carrinho[id].id);
+    console.log((this.carrinho[id].total / this.carrinho[id].purchaseQtd));
+
+    //this.carrinhoService.updateStorage();
   }
 
   public storeToPedidos(){

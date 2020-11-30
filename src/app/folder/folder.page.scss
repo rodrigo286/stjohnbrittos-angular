@@ -26,3 +26,9 @@ ion-menu-button {
 #container a {
   text-decoration: none;
 }
+
+.app-header-statusbar {
+	font-size: 80%;
+	vertical-align: middle;
+  --min-height: 24px !important;
+}
