@@ -143,12 +143,12 @@
         <ion-toolbar color="light" class="ion-text-center app-header-statusbar">
           {{ item.purchaseQtd }}
           <ion-buttons slot="start">
-            <ion-button (click)="check(i)">
+            <ion-button (click)="carrinhoRem(i)">
               <ion-icon class="app-ion-icon" slot="icon-only" name="remove" ></ion-icon>
             </ion-button>
           </ion-buttons>
           <ion-buttons slot="end">
-            <ion-button (click)="check(i)">
+            <ion-button (click)="carrinhoAdd(i)">
               <ion-icon class="app-ion-icon" slot="icon-only" name="add"></ion-icon>
             </ion-button>
           </ion-buttons>
@@ -168,11 +168,15 @@
         Seu carrinho está vazio no momento !
       </ion-item>
 
+      <section class="full-width">
+        <ion-button (click)="goToMenu()" expand="full" color="secondary">Ver categorias de produtos</ion-button>
+      </section>
+
     </ng-template>
 
-    <pre>
+    <!--<pre>
       {{ carrinho | json }}
-    </pre>
+    </pre>-->
 
   </ng-template>
 
@@ -230,7 +234,7 @@
         </ion-item>
 
         <section class="full-width">
-          <ion-button (click)="check()" expand="full" color="secondary">Ver categorias de produtos</ion-button>
+          <ion-button (click)="goToMenu()" expand="full" color="secondary">Ver categorias de produtos</ion-button>
         </section>
       </ion-card>
 

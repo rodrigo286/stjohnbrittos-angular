@@ -59,14 +59,31 @@ export class FolderPage implements OnInit {
   public pedidosTotal = [];
   public pedidosDetail = [];
 
-  public check(id: number){
-    //this.carrinho[id].purchaseQtd++;
+public goToMenu(){
+  window.location.replace("/folder/Menu");;
+}
 
-    console.log(this.carrinho[id]);
-    console.log(this.carrinho[id].id);
-    console.log((this.carrinho[id].total / this.carrinho[id].purchaseQtd));
+  public carrinhoRem(id: number){
+    this.carrinho[id].total -= (this.carrinho[id].total / this.carrinho[id].purchaseQtd);
+    this.carrinho[id].purchaseQtd--;
 
-    //this.carrinhoService.updateStorage();
+    if(this.carrinho[id].purchaseQtd <= 0)
+      this.carrinho.splice(id, 1);
+
+    this.carrinhoService.updateStorage();
+
+    window.location.replace("/folder/Carrinho");
+  }
+
+  public carrinhoAdd(id: number){
+    this.carrinho[id].total += (this.carrinho[id].total / this.carrinho[id].purchaseQtd);
+    this.carrinho[id].purchaseQtd++;
+
+    /*console.log(this.carrinho[id]);
+    console.log(this.carrinho[id].purchaseQtd + 1);
+    console.log(this.carrinho[id].total + (this.carrinho[id].total / this.carrinho[id].purchaseQtd));*/
+
+    this.carrinhoService.updateStorage();
   }
 
   public storeToPedidos(){

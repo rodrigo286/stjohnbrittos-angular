@@ -57,6 +57,4 @@ export class CarrinhoService {
   public productExists(productId: number){
     return this.carrinho.some(el => el.productId === productId);
   }
-
-  public 
 }
